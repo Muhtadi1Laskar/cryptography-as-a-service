@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "test": "nodemon src/server.js",
-    "start": "node src/server.js",
+    "test": "nodemon src/app.js",
+    "start": "node src/app.js",
     "dev": "nodemon src/server.js"
   },
   "author": "Muhtadi Laskar",
