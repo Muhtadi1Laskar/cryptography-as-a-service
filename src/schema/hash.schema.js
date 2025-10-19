@@ -48,7 +48,6 @@ export const verifyHashSchema = Joi.object({
 
 export const multipleHashSchema = Joi.object({
     algorithms: Joi.array()
-        .items(Joi.string().valid(...HASHES))
         .min(1)
         .required()
         .messages({
