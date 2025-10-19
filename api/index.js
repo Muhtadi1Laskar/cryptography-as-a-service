@@ -3,4 +3,4 @@ import serverless from "serverless-http";
 
 export const handler = serverless(app);
 
-export default serverless(handler);
+export default handler;
