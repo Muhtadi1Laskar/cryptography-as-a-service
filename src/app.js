@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import router from "./router/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import serverless from "serverless-http";
 
 const app = express();
 
@@ -16,4 +17,4 @@ app.use("/api", router);
 
 app.use(errorHandler);
 
-export default app;
+export const handler = serverless(app);

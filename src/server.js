@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import app from "./app.js";
+import { handler } from "./app.js";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
+handler.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
