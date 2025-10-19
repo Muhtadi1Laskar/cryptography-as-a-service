@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CryptoNode: Cryptography-As-A-Service API</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+            rel="stylesheet">
+        <style>
+            /* CSS is included here for a single-file solution */
+            /* Paste the CSS code block below into the <style> tags */
+            /* START CSS BLOCK */
+            :root {
+                --primary-color: #007BFF;
+                /* Main Action Blue */
+                --secondary-color: #28A745;
+                /* Success Green */
+                --dark-bg: #1A1A2E;
+                /* Deep Dark Background */
+                --card-bg: #2C2C40;
+                /* Slightly Lighter Card Background */
+                --text-light: #EAEAEA;
+                /* Light Text for Dark Background */
+                --text-muted: #B0B0C4;
+                /* Sub-text */
+                --border-color: #3B3B54;
+                --font-family: 'Poppins', sans-serif;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: var(--font-family);
+                color: var(--text-light);
+                background-color: var(--dark-bg);
+                line-height: 1.6;
+                scroll-behavior: smooth;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px 0;
+            }
+
+            /* --- Header --- */
+            header {
+                background-color: #1A1A2E;
+                padding: 15px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo a {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--primary-color);
+                text-decoration: none;
+            }
+
+            .nav-links a {
+                color: var(--text-light);
+                text-decoration: none;
+                margin-left: 30px;
+                font-weight: 400;
+                transition: color 0.3s;
+            }
+
+            .nav-links a:hover {
+                color: var(--primary-color);
+            }
+
+            .cta-button {
+                display: inline-block;
+                background-color: var(--primary-color);
+                color: white;
+                padding: 10px 25px;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: 600;
+                transition: background-color 0.3s, transform 0.2s;
+            }
+
+            .cta-button:hover {
+                background-color: #0056b3;
+                transform: translateY(-2px);
+            }
+
+            /* --- Hero Section --- */
+            .hero {
+                text-align: center;
+                padding: 120px 0;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1.4rem;
+                color: var(--text-muted);
+                margin-bottom: 40px;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero .cta-button {
+                padding: 15px 40px;
+                font-size: 1.1rem;
+            }
+
+            /* --- Section Styling --- */
+            section {
+                padding: 80px 0;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+                text-align: center;
+                margin-bottom: 50px;
+                font-weight: 600;
+                color: var(--text-light);
+            }
+
+            /* --- Features Grid --- */
+            .features {
+                background-color: #141424;
+            }
+
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .feature-card {
+                background-color: var(--card-bg);
+                padding: 30px;
+                border-radius: 8px;
+                border-left: 4px solid var(--primary-color);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .feature-card h3 {
+                font-size: 1.5rem;
+                color: var(--primary-color);
+                margin-bottom: 15px;
+                font-weight: 600;
+            }
+
+            .feature-card p {
+                color: var(--text-muted);
+            }
+
+            /* --- Endpoints Table --- */
+            .endpoints-section {
+                background-color: var(--dark-bg);
+            }
+
+            .endpoint-category {
+                margin-top: 40px;
+            }
+
+            .endpoint-category h3 {
+                font-size: 1.8rem;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+                border-bottom: 2px solid var(--secondary-color);
+                display: inline-block;
+                padding-bottom: 5px;
+            }
+
+            .endpoint-table {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: var(--card-bg);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .endpoint-table th,
+            .endpoint-table td {
+                padding: 15px 20px;
+                text-align: left;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .endpoint-table th {
+                background-color: #3B3B54;
+                color: var(--text-light);
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.9rem;
+            }
+
+            .endpoint-table td:first-child {
+                color: var(--primary-color);
+                font-weight: 500;
+            }
+
+            .endpoint-table tr:hover {
+                background-color: #3B3B54;
+            }
+
+            /* --- Footer CTA --- */
+            .cta-footer {
+                text-align: center;
+                padding: 80px 0;
+                background-color: #141424;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .cta-footer h2 {
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+            }
+
+            footer {
+                text-align: center;
+                padding: 20px 0;
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                border-top: 1px solid var(--border-color);
+            }
+
+            /* END CSS BLOCK */
+        </style>
+    </head>
+
+    <body>
+
+        <header>
+            <div class="container navbar">
+                <div class="logo"><a href="#">CryptoNode</a></div>
+                <nav class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#endpoints">Endpoints</a>
+                    <a href="#documentation">Documentation</a>
+                    <a href="#" class="cta-button">Get API Key</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>Integrate Enterprise-Grade Cryptography in Minutes.</h1>
+                <p>Your Node.js Cryptography-As-A-Service API. Secure your data with easy-to-use endpoints for Hashing,
+                    Encryption, and Digital Signatures.</p>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2>Core Cryptographic Pillars</h2>
+                <div class="features-grid">
+
+                    <div class="feature-card">
+                        <h3>🔒 Symmetric Encryption (AES)</h3>
+                        <p>Rapidly encrypt and decrypt large volumes of data using the industry-standard AES algorithm.
+                            Ideal for securing application data and protecting client-server communications.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--primary-color);">Endpoints:
+                            <code>/encrypt</code>, <code>/decrypt</code></p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🔑 Asymmetric Signatures (RSA)</h3>
+                        <p>Establish digital trust and verify the identity of senders. Easily generate secure RSA key
+                            pairs, sign documents, and verify message authenticity using public keys.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--primary-color);">Endpoints:
+                            <code>/sign</code>, <code>/verify-signature</code></p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>⚡ Hashing & Integrity (SHA/HMAC)</h3>
+                        <p>Ensure message integrity and secure password storage with high-speed hashing (SHA family) and
+                            keyed message authentication (HMAC). Essential for security and validation.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--primary-color);">Endpoints:
+                            <code>/hash</code>, <code>/compare-hash</code>, <code>/hmac</code></p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="endpoints" class="endpoints-section">
+            <div class="container">
+                <h2>API Endpoints at a Glance</h2>
+
+                <div class="endpoint-category">
+                    <h3>Hashing & Authentication</h3>
+                    <table class="endpoint-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/hash</code></td>
+                                <td>Hashing</td>
+                                <td>Hash a message or file content (e.g., for password storage).</td>
+                            </tr>
+                            <tr>
+                                <td><code>/compare-hash</code></td>
+                                <td>Hashing</td>
+                                <td>Verify message integrity by comparing a raw message against a stored hash.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/hmac</code></td>
+                                <td>HMAC</td>
+                                <td>Generate a cryptographic hash function with a secret key to authenticate messages.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="endpoint-category">
+                    <h3>Encryption & Decryption</h3>
+                    <table class="endpoint-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/encrypt</code></td>
+                                <td>Symmetric</td>
+                                <td>Encrypt plain text data using the high-performance AES algorithm.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/decrypt</code></td>
+                                <td>Symmetric</td>
+                                <td>Decrypt AES-encrypted ciphertext back to readable text.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="endpoint-category">
+                    <h3>Digital Signatures & Keys</h3>
+                    <table class="endpoint-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/generate-keypair</code></td>
+                                <td>Asymmetric</td>
+                                <td>Securely create a new public/private RSA key pair.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/sign</code></td>
+                                <td>Asymmetric</td>
+                                <td>Generate a digital signature for a message using a private key.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/verify-signature</code></td>
+                                <td>Asymmetric</td>
+                                <td>Authenticate a message using the sender's public key and the digital signature.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="endpoint-category">
+                    <h3>Utilities & Encoding</h3>
+                    <table class="endpoint-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/encode</code></td>
+                                <td>Utilities</td>
+                                <td>Encode raw data into standard formats like Base64 or Hex.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/decode</code></td>
+                                <td>Utilities</td>
+                                <td>Decode data from Base64 or Hex back to its original format.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-footer">
+            <div class="container">
+                <h2>Ready to Secure Your Application?</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text-muted);">Integrate the Node.js
+                    Cryptography-as-a-Service API and delegate your security complexity.</p>
+                <a href="#" class="cta-button" style="background-color: var(--secondary-color);">View Documentation
+                    →</a>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                &copy; 2025 CryptoNode API. All rights reserved. Built with Node.js.
+            </div>
+        </footer>
+
+    </body>
+
+</html>
