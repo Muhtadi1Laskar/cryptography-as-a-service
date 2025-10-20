@@ -33,3 +33,12 @@ export const aesDecryptSchema = Joi.object({
         })
 }).required().messages({ "any.required": "Payload is required" });
 
+
+export const aesFileEncryptionScheme = Joi.object({
+    secretKey: Joi.string()
+        .required()
+        .messages({
+            "string.empty": "secretKey cannot be empty",
+            "any.required": "secretKey is a required field"
+        })
+});
