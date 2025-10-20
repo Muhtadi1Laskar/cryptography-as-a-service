@@ -1,7 +1,7 @@
 import { decryptAES, encryptAES, generateAesKey } from "../services/aes.service.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 
-export const generatAESKey = (req, res, next) => {
+export const generatAESKey = async (req, res, next) => {
     const { secretKey } = req.body;
 
     try {
@@ -12,7 +12,7 @@ export const generatAESKey = (req, res, next) => {
     }
 }
 
-export const aesEncrypt = (req, res, next) => {
+export const aesEncrypt = async (req, res, next) => {
     const { text, secretKey } = req.body;
 
     try {
@@ -23,7 +23,7 @@ export const aesEncrypt = (req, res, next) => {
     }
 }
 
-export const aesDecrypt = (req, res, next) => {
+export const aesDecrypt = async (req, res, next) => {
     const { cipherText, secretKey } = req.body;
 
     try {
@@ -34,7 +34,7 @@ export const aesDecrypt = (req, res, next) => {
     }
 }
 
-export const aesFileEncrypt = (req, res, next) => {
+export const aesFileEncrypt = async (req, res, next) => {
     if (!req.file) {
         errorResponse(res, { message: "File is missing" }, 401);
         return;
@@ -52,7 +52,7 @@ export const aesFileEncrypt = (req, res, next) => {
     }
 }
 
-export const aesFileDecrypt = (req, res, next) => {
+export const aesFileDecrypt = async (req, res, next) => {
     if (!req.file) {
         errorResponse(res, { message: "File is missing" }, 200);
         return;
