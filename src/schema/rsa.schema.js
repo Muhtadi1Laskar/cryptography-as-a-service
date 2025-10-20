@@ -77,7 +77,7 @@ export const rsaSignMessageSchema = Joi.object({
         .messages({
             "string.max": "Passphrase cannot exceed 256 characters",
         }),
-});
+}).required().messages({ "any.required": "No payload provided" });
 
 
 export const rsaVerifyMessageScheme = Joi.object({
