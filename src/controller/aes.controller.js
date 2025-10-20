@@ -1,5 +1,16 @@
-import { decryptAES, encryptAES } from "../services/aes.service.js";
+import { decryptAES, encryptAES, generateAesKey } from "../services/aes.service.js";
 import { errorResponse, successResponse } from "../utils/response.js";
+
+export const generatAESKey = (req, res, next) => {
+    const { secretKey } = req.body;
+
+    try {
+        const result = generateAesKey(secretKey);
+        successResponse(res, result, 200);
+    } catch(error) {
+        next(error);
+    }
+}
 
 export const aesEncrypt = (req, res, next) => {
     const { text, secretKey } = req.body;

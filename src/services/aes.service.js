@@ -4,11 +4,26 @@ const generateKey = (password, salt) => {
     return crypto.pbkdf2Sync(password, salt, 200000, 32, "sha256");
 };
 
+export const generateAesKey = (password) => {
+    try {
+        const key = crypto.randomBytes(32);
+        const iv = crypto.randomBytes(12);
+
+        return {
+            key: key.toString("hex"),
+            iv: iv.toString("hex")
+        };
+    } catch (error) {
+        console.error("Failed to generate key and iv: ", error);
+        throw new Error("Failed to generate key and iv");
+    }
+}
+
 export const encryptAES = (text, password) => {
     try {
         const salt = crypto.randomBytes(16);
         const key = generateKey(password, salt);
-        const iv = crypto.randomBytes(12); 
+        const iv = crypto.randomBytes(12);
         const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
         const encrypted = Buffer.concat([cipher.update(text, "utf8"), cipher.final()]);
         const authTag = cipher.getAuthTag();
@@ -30,7 +45,7 @@ export const decryptAES = (cipherText, password) => {
     try {
         const parts = cipherText.split(":");
         if (parts.length !== 4) {
-             throw new Error("Invalid ciphertext format or missing components.");
+            throw new Error("Invalid ciphertext format or missing components.");
         }
 
         const [saltHex, ivHex, authTagHex, encryptedHex] = parts;
