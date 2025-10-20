@@ -46,7 +46,7 @@ export const rsaSignMessage = (message, signatureAlgorithm, outputEncoding, priv
         const signature = signer.sign(privateKey, outputEncoding);
         return signature;
     } catch (error) {
-        console.error(error);
+        console.error("ERROR", error);
         throw new Error(error);
     }
 
