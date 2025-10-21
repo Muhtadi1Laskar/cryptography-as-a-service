@@ -1,4 +1,4 @@
-import { generateRSAKey, rsaSignMessage } from "../services/rsa.service.js";
+import { generateRSAKey, rsaSignMessage, verifyMessage } from "../services/rsa.service.js";
 import { successResponse } from "../utils/response.js";
 
 export const generateKeys = async (req, res, next) => {
@@ -34,6 +34,24 @@ export const rsaSign = async (req, res, next) => {
     try {
         const signature = rsaSignMessage(message, signatureAlgorithm, outputEncoding, privateKeyString, passPhrase);
         successResponse(res, { signature: signature }, 200);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const rsaVerify = async (req, res, next) => {
+    const {
+        message,
+        signature,
+        signatureAlgorithm,
+        outputEncoding,
+        publicKeyString
+    } = req.body;
+
+    try {
+
+        const isVerified = verifyMessage(message, signature, signatureAlgorithm, outputEncoding, publicKeyString, outputEncoding);
+        successResponse(res, { isVerified }, 200);
     } catch (error) {
         next(error);
     }

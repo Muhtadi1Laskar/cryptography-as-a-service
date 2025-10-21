@@ -91,12 +91,19 @@ export const rsaVerifyMessageScheme = Joi.object({
             "string.empty": "Message cannot be empty",
             "any.required": "Message is required",
         }),
-
-    signatureAlgorithm: Joi.string()
-        .valid("RSA-SHA256", "RSA-SHA512", "ECDSA-SHA256", "HMAC-SHA256")
+    
+    signature: Joi.string()
         .required()
         .messages({
-            "any.only": "Unsupported signature algorithm",
+            "any.required": "Signature is required",
+            "string.required": "Signature cannot be empty"
+        }),
+
+    signatureAlgorithm: Joi.string()
+        .valid(...RSA_HASHES)
+        .required()
+        .messages({
+            "any.only": `Unsupported signature algorithm. Use one of the following: ${RSA_HASHES.join(', ')}`,
             "any.required": "Signature algorithm is required",
         }),
 

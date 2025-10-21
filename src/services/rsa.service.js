@@ -48,6 +48,26 @@ export const rsaSignMessage = (message, signatureAlgorithm, outputEncoding, priv
 
 }
 
+export const verifyMessage = (message, signature, signatureAlgorithm, outputEncoding, publicKeyString, passPhrase) => {
+    const cleanPublicKeyString = publicKeyString.replace(/\\n/g, "\n");
+
+    if(!isValidPublicKey(cleanPublicKeyString)) {
+        throw new Error("Invalid Public Key");
+    }
+
+    try {
+        const publicKey = crypto.createPublicKey(cleanPublicKeyString);
+        const verifier = crypto.createVerify(signatureAlgorithm);
+        verifier.update(message);
+        verifier.end();
+
+        const isVerified = verifier.verify(publicKey, signature, outputEncoding);
+        return isVerified
+    } catch (error) {
+        console.error(error);
+        throw new Error(error);
+    }
+}
 
 const isValidPrivateKey = (key, passphrase) => {
     try {
@@ -61,5 +81,15 @@ const isValidPrivateKey = (key, passphrase) => {
     } catch (error) {
         console.error("Invalid RSA Private Key: ", error.message);
         return false;
+    }
+}
+
+const isValidPublicKey = (publicKeyString) => {
+    try {
+        const keyObject = crypto.createPublicKey(publicKeyString);
+        return keyObject.type === "public" && keyObject.asymmetricKeyType === "rsa";
+    } catch (error) {
+        console.error("Key validation error: ", error.message);
+        return error;
     }
 }
