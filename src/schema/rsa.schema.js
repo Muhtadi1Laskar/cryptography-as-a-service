@@ -1,7 +1,8 @@
 import Joi from "joi";
 import crypto from "node:crypto";
 
-const hashes = crypto.getCiphers();
+const hashes = crypto.getHashes();
+const RSA_HASHES = hashes.filter(hash => hash.startsWith("RSA"));
 
 export const rsaKeySchema = Joi.object({
     bits: Joi.number()
@@ -49,10 +50,10 @@ export const rsaSignMessageSchema = Joi.object({
         }),
 
     signatureAlgorithm: Joi.string()
-        .valid("RSA-SHA256", "RSA-SHA512", "ECDSA-SHA256", "HMAC-SHA256")
+        .valid(...RSA_HASHES)
         .required()
         .messages({
-            "any.only": "Unsupported signature algorithm",
+            "any.only": `Unsupported signature algorithm. Use one of the following: ${RSA_HASHES.join(', ')}`,
             "any.required": "Signature algorithm is required",
         }),
 

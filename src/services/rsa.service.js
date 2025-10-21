@@ -26,10 +26,6 @@ export const generateRSAKey = (bits, type, cipherAlgorithm, passphrase) => {
 export const rsaSignMessage = (message, signatureAlgorithm, outputEncoding, privateKeyString, passPhrase) => {
     const clearnPrivateString = privateKeyString.replace(/\\n/g, "\n");
 
-    console.log("");
-    console.log(message, signatureAlgorithm, outputEncoding, clearnPrivateString, passPhrase);
-    console.log("");
-
     if (!isValidPrivateKey(clearnPrivateString, passPhrase)) {
         throw new Error("Invalid Private Key");
     }

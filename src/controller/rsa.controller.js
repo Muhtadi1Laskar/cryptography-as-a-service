@@ -33,7 +33,7 @@ export const rsaSign = async (req, res, next) => {
 
     try {
         const signature = rsaSignMessage(message, signatureAlgorithm, outputEncoding, privateKeyString, passPhrase);
-        successResponse(res, { signature }, res);
+        successResponse(res, { signature: signature }, 200);
     } catch (error) {
         next(error);
     }
