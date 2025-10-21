@@ -1,4 +1,4 @@
-import { generateRSAKey, rsaSignMessage, verifyMessage } from "../services/rsa.service.js";
+import { generateRSAKey, rsaEncryption, rsaSignMessage, verifyMessage } from "../services/rsa.service.js";
 import { successResponse } from "../utils/response.js";
 
 export const generateKeys = async (req, res, next) => {
@@ -52,6 +52,22 @@ export const rsaVerify = async (req, res, next) => {
 
         const isVerified = verifyMessage(message, signature, signatureAlgorithm, outputEncoding, publicKeyString, outputEncoding);
         successResponse(res, { isVerified }, 200);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const rsaEncrypt = async (req, res, next) => {
+    const {
+        data,
+        publicKeyString,
+        hash,
+        outputEncoding
+    } = req.body;
+
+    try {
+        const encryptedData = rsaEncryption(data, publicKeyString, hash, outputEncoding);
+        successResponse(res, { encryptedData }, 200);
     } catch (error) {
         next(error);
     }

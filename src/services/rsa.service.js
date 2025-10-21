@@ -69,6 +69,31 @@ export const verifyMessage = (message, signature, signatureAlgorithm, outputEnco
     }
 }
 
+export const rsaEncryption = (data, publicKeyString, hash, outputEncoding) => {
+    const cleanPublicKeyString = publicKeyString.replace(/\\n/g, "\n");
+
+    if(!isValidPublicKey(cleanPublicKeyString)) {
+        throw new Error("Invalid Public Key");
+    }
+
+    try {
+        const buffer = Buffer.from(data, "utf8");
+        const encrypted = crypto.publicEncrypt(
+            {
+                key: cleanPublicKeyString,
+                padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+                oaepHash: hash
+            },
+            buffer
+        );
+
+        return encrypted.toString(outputEncoding);
+    } catch (error) {
+        console.error(error);
+        throw new Error("Failed to encrypt data");
+    }
+}
+
 const isValidPrivateKey = (key, passphrase) => {
     try {
         const privateKey = crypto.createPrivateKey({ key, passphrase });

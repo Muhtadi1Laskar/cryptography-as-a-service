@@ -91,7 +91,7 @@ export const rsaVerifyMessageScheme = Joi.object({
             "string.empty": "Message cannot be empty",
             "any.required": "Message is required",
         }),
-    
+
     signature: Joi.string()
         .required()
         .messages({
@@ -128,4 +128,41 @@ export const rsaVerifyMessageScheme = Joi.object({
         .messages({
             "string.max": "Passphrase cannot exceed 256 characters",
         }),
-});
+}).required().messages({ "any.required": "No payload provided" });
+
+
+export const rsaEncryptionSchema = Joi.object({
+    data: Joi.string()
+        .required()
+        .messages({
+            "string.base": "data must be a string",
+            "string.empty": "data cannot be empty",
+            "any.required": "data is required",
+        }),
+
+    publicKeyString: Joi.string()
+        .min(100)
+        .required()
+        .messages({
+            "string.base": "Public key must be a string",
+            "string.empty": "Public key string cannot be empty",
+            "any.required": "Public key string is required",
+        }),
+
+    hash: Joi.string()
+        .valid(...hashes)
+        .required()
+        .messages({
+            "any.only": `Unsupported signature algorithm. Use one of the following: ${hashes.join(', ')}`,
+            "any.required": "Signature algorithm is required",
+        }),
+
+    outputEncoding: Joi.string()
+        .valid("hex", "base64", "utf8")
+        .required()
+        .messages({
+            "any.required": "Output encoding is required",
+            "any.only": "Output encoding must be one of 'hex', 'base64', or 'utf8'",
+        }),
+
+}).required().messages({ "any.required": "No payload provided" });
