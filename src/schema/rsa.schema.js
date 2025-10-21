@@ -77,6 +77,8 @@ export const rsaSignMessageSchema = Joi.object({
         .max(256)
         .messages({
             "string.max": "Passphrase cannot exceed 256 characters",
+            "string.empty": "Passphrase cannot be empty",
+            "any.required": "Passphrase is required"
         }),
 }).required().messages({ "any.required": "No payload provided" });
 
@@ -127,6 +129,8 @@ export const rsaVerifyMessageScheme = Joi.object({
         .max(256)
         .messages({
             "string.max": "Passphrase cannot exceed 256 characters",
+            "string.empty": "Passphrase cannot be empty",
+            "any.required": "Passphrase is required"
         }),
 }).required().messages({ "any.required": "No payload provided" });
 
@@ -155,6 +159,59 @@ export const rsaEncryptionSchema = Joi.object({
         .messages({
             "any.only": `Unsupported signature algorithm. Use one of the following: ${hashes.join(', ')}`,
             "any.required": "Signature algorithm is required",
+        }),
+
+    outputEncoding: Joi.string()
+        .valid("hex", "base64", "utf8")
+        .required()
+        .messages({
+            "any.required": "Output encoding is required",
+            "any.only": "Output encoding must be one of 'hex', 'base64', or 'utf8'",
+        }),
+
+}).required().messages({ "any.required": "No payload provided" });
+
+
+export const rsaDecryptionSchema = Joi.object({
+    encryptedData: Joi.string()
+        .required()
+        .messages({
+            "string.base": "encryptedData must be a string",
+            "string.empty": "encryptedData cannot be empty",
+            "any.required": "encryptedData is required",
+        }),
+
+    privateKeyString: Joi.string()
+        .min(100)
+        .required()
+        .messages({
+            "string.empty": "Private key string cannot be empty",
+            "any.required": "Private key string is required",
+        }),
+
+    hash: Joi.string()
+        .valid(...hashes)
+        .required()
+        .messages({
+            "any.only": `Unsupported signature algorithm. Use one of the following: ${hashes.join(', ')}`,
+            "any.required": "Signature algorithm is required",
+        }),
+
+    passPhrase: Joi.string()
+        .allow("", null)
+        .max(256)
+        .messages({
+            "string.max": "Passphrase cannot exceed 256 characters",
+            "string.empty": "Passphrase cannot be empty",
+            "any.required": "Passphrase is required"
+        }),
+
+    inputEncoding: Joi.string()
+        .valid("hex", "base64", "utf8")
+        .required()
+        .messages({
+            "any.required": "Input encoding is required",
+            "any.only": "Input encoding must be one of 'hex', 'base64', or 'utf8'",
         }),
 
     outputEncoding: Joi.string()

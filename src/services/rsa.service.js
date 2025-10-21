@@ -51,7 +51,7 @@ export const rsaSignMessage = (message, signatureAlgorithm, outputEncoding, priv
 export const verifyMessage = (message, signature, signatureAlgorithm, outputEncoding, publicKeyString, passPhrase) => {
     const cleanPublicKeyString = publicKeyString.replace(/\\n/g, "\n");
 
-    if(!isValidPublicKey(cleanPublicKeyString)) {
+    if (!isValidPublicKey(cleanPublicKeyString)) {
         throw new Error("Invalid Public Key");
     }
 
@@ -72,7 +72,7 @@ export const verifyMessage = (message, signature, signatureAlgorithm, outputEnco
 export const rsaEncryption = (data, publicKeyString, hash, outputEncoding) => {
     const cleanPublicKeyString = publicKeyString.replace(/\\n/g, "\n");
 
-    if(!isValidPublicKey(cleanPublicKeyString)) {
+    if (!isValidPublicKey(cleanPublicKeyString)) {
         throw new Error("Invalid Public Key");
     }
 
@@ -91,6 +91,32 @@ export const rsaEncryption = (data, publicKeyString, hash, outputEncoding) => {
     } catch (error) {
         console.error(error);
         throw new Error("Failed to encrypt data");
+    }
+}
+
+export const rsaDecryption = (encryptedData, privateKeyString, hash, passPhrase, inputEncoding, outputEncoding) => {
+    const clearnPrivateString = privateKeyString.replace(/\\n/g, "\n");
+
+    if (!isValidPrivateKey(clearnPrivateString, passPhrase)) {
+        throw new Error("Invalid Private Key");
+    }
+
+    try {
+        const buffer = Buffer.from(encryptedData, inputEncoding);
+        const decrypted = crypto.privateDecrypt(
+            {
+                key: clearnPrivateString,
+                passphrase: passPhrase,
+                padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+                oaepHash: hash
+            },
+            buffer
+        );
+
+        return decrypted.toString(outputEncoding);
+    } catch (error) {
+        console.error(error);
+        throw new Error("Failed to decrypt data");
     }
 }
 
