@@ -5,7 +5,7 @@ import { generateKeys, rsaDecrypt, rsaEncrypt, rsaSign, rsaVerify } from "../con
 
 const router = express.Router();
 
-router.post("/generateKeys", validate(rsaKeySchema), generateKeys);
+router.post("/generate-key", validate(rsaKeySchema), generateKeys);
 router.post("/sign", validate(rsaSignMessageSchema), rsaSign);
 router.post("/verify", validate(rsaVerifyMessageScheme), rsaVerify);
 router.post("/encrypt", validate(rsaEncryptionSchema), rsaEncrypt);
