@@ -15,7 +15,7 @@ class IdenticonGenerator {
         this.size = options.size || 250;
         this.hashAlgorithm = options.hashAlgorithm || 'md5';
         this.backgroundColor = options.backgroundColor || { r: 240, g: 240, b: 240, alpha: 1 };
-        
+
         if (this.size % 5 !== 0) {
             throw new Error('Image size must be divisible by 5.');
         }
@@ -45,17 +45,17 @@ class IdenticonGenerator {
         const grid = [];
         for (let i = 0; i < 15; i += 3) {
             const row = [
-                this.hash[i], 
-                this.hash[i + 1], 
-                this.hash[i + 2], 
-                this.hash[i + 1], 
+                this.hash[i],
+                this.hash[i + 1],
+                this.hash[i + 2],
+                this.hash[i + 1],
                 this.hash[i]
             ];
             grid.push(...row);
         }
         return grid;
     }
-    
+
     async generate() {
         const coloredSquares = [];
         const coloredSquareBuffer = await sharp({
@@ -78,7 +78,7 @@ class IdenticonGenerator {
                 });
             }
         });
-        
+
         const imageBuffer = await sharp({
             create: {
                 width: this.size,
@@ -87,10 +87,10 @@ class IdenticonGenerator {
                 background: this.backgroundColor
             }
         })
-        .composite(coloredSquares)
-        .png()
-        .toBuffer();
-        
+            .composite(coloredSquares)
+            .png()
+            .toBuffer();
+
         return imageBuffer.toString('base64');
     }
 }
