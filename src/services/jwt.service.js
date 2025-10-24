@@ -1,0 +1,92 @@
+
+import crypto from "node:crypto";
+
+const base64urlEncode = (data) => {
+    return Buffer.from(data)
+        .toString("base64")
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+}
+
+const base64urlDecode = (data) => {
+    let padded = data + "===".slice(0, (4 - data.length % 4) % 4);
+    return Buffer.from(padded.replace(/-/g, '+')
+        .replace(/_/g, '/'), 'base64')
+        .toString('utf8');
+}
+
+const signToken = (tokenParts, secret) => {
+    return crypto.createHmac("sha256", secret)
+        .update(tokenParts)
+        .digest("base64")
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+}
+
+export const createJWT = (algorithm, payload, secret) => {
+    const header = {
+        alg: algorithm,
+        typ: 'JWT'
+    };
+
+    const expiration = Math.floor(Date.now() / 1000) + (60 * 60);
+    payload.exp = expiration;
+
+    const encodedHeader = base64urlEncode(JSON.stringify(header));
+    const encodedPayload = base64urlEncode(JSON.stringify(payload));
+    const tokenParts = `${encodedHeader}.${encodedPayload}`;
+    const signature = signToken(tokenParts, secret);
+
+    return `${tokenParts}.${signature}`;
+}
+
+export const verifyJWT = (token, secret) => {
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) {
+            console.error("Invalid Token Format");
+            throw new Error("Invalid Token Format");
+        }
+
+        const [encodedHeader, encodedPayload, signature] = parts;
+        const tokenParts = `${encodedHeader}.${encodedPayload}`;
+
+        const expectedSignature = signToken(tokenParts, secret);
+
+        const recievedSigBuffer = Buffer.from(signature);
+        const expectedSigBuffer = Buffer.from(expectedSignature);
+
+        if (recievedSigBuffer.length !== expectedSigBuffer.length ||
+            !crypto.timingSafeEqual(recievedSigBuffer, expectedSigBuffer)) {
+                console.error("signature verification failed");
+                throw new Error("Signatur verification failed");
+        }
+
+        const payloadStr = base64urlDecode(encodedPayload);
+        const payload = JSON.parse(payloadStr);
+
+        const now = Math.floor(Date.now() / 1000);
+        if (payload.exp < now) {
+            console.error("Token Expired");
+            throw new Error("Token Expired");
+        }
+        return payload;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const data = {
+    name: "Luffy",
+    occupation: "Pirate",
+    age: 18
+};
+
+const secretKey = "Hello World"
+const token = createJWT("HS256", data, secretKey);
+const verifiedPayload = verifyJWT(token, secretKey);
+
+console.log(token);
+console.log(verifiedPayload);
