@@ -7,7 +7,7 @@ export const generatAESKey = async (req, res, next) => {
     try {
         const result = generateAesKey(secretKey);
         successResponse(res, result, 200);
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 }

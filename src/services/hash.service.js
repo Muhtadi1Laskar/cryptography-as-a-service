@@ -10,7 +10,7 @@ export const hashFunction = (data, algorithm) => {
     }
 }
 
-export const verifyHashData = ( data, hash, algorithm) => {
+export const verifyHashData = (data, hash, algorithm) => {
     try {
         const newHash = hashFunction(data, algorithm);
         return hash === newHash;

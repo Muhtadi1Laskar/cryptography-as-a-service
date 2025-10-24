@@ -74,7 +74,7 @@ export const multipleHash = async (req, res, next) => {
 }
 
 export const hashFile = async (req, res, next) => {
-    if(!req.file) {
+    if (!req.file) {
         errorResponse(res, { message: "File is missing" }, 401);
         return;
     }
@@ -82,7 +82,7 @@ export const hashFile = async (req, res, next) => {
     const { originalname, mimetype, buffer, size } = req.file;
     const algorithm = req.body.hash;
     const text = buffer.toString();
-    
+
     try {
         const hash = hashFunction(text, algorithm);
         successResponse(res, { hash }, 200)
