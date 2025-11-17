@@ -1,8 +1,3 @@
-Here is a clean, professional, production-ready **README.md** for your cryptography API.
-It’s formatted so you can drop it directly into your GitHub project.
-
----
-
 # 🛡️ Cryptography API — Node.js
 
 A modular, production-ready cryptography service built with Node.js & Express.
