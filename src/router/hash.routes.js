@@ -6,7 +6,7 @@ import { uploadSingle } from "../middleware/fileHandler.js";
 
 const router = express.Router();
 
-router.get("/algortihms", getAllHash);
+router.get("/algorithms", getAllHash);
 router.post("/text", validate(hashDataSchema), hashData);
 router.post("/text/verify", validate(verifyHashSchema), verifyHash);
 router.post("/text/multiple", validate(multipleHashSchema), multipleHash);
