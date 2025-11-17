@@ -1,133 +1,249 @@
-🔐 Cryptographic Utilities API
+Here is a clean, professional, production-ready **README.md** for your cryptography API.
+It’s formatted so you can drop it directly into your GitHub project.
 
-Project Overview
+---
 
-The Cryptographic Utilities API provides a robust suite of endpoints for handling common cryptographic tasks, including hashing, symmetric encryption (AES), asymmetric encryption (RSA), digital signing, and general data encoding. This service is designed to be a reliable backend utility for applications requiring secure data handling, integrity checks, and identity management.
+# 🛡️ Cryptography API — Node.js
 
-🚀 Key Features
+A modular, production-ready cryptography service built with Node.js & Express.
+This API provides hashing, HMAC generation/verification, AES encryption/decryption, RSA key operations, encoding/decoding utilities, and identicon generation.
 
-Hashing: Generate and verify hashes using various algorithms (e.g., SHA-256, MD5). Supports both string and file hashing.
+---
 
-HMAC (Message Authentication Code): Generate and verify HMACs for authenticated data integrity.
+## 🚀 Features
 
-AES Symmetric Encryption: Generate keys and perform high-speed encryption/decryption for both string data and files.
+### 🔐 **Hashing**
 
-RSA Asymmetric Cryptography: Generate public/private key pairs, perform digital signing/verification, and handle public key encryption/decryption.
+* Hash text (SHA256, SHA512, MD5, etc.)
+* Compare text with a hash
+* Generate multiple hashes at once
+* Hash uploaded files
 
-Data Encoding: Utilities for basic data transformation (e.g., Base64, Hex).
+### 🔑 **HMAC**
 
-Identicon Generation: Generate unique, visual representations (Identicons) from input seed data.
+* Generate HMAC signatures
+* Verify HMAC signatures
 
-🗺️ API Structure and Routing
+### 🧊 **AES Encryption**
 
-The API is logically organized into modules based on the cryptographic function. All routes are prefixed with the base API URL (e.g., https://api.yourdomain.com).
+* Generate AES keys
+* Encrypt & decrypt text
+* Encrypt & decrypt file uploads
 
-Main Route
+### 🔏 **RSA Operations**
 
-Functionality
+* Generate RSA public/private keys
+* Sign & verify messages
+* Encrypt & decrypt data
 
-/hash
+### 🧬 **Encoding / Decoding**
 
-One-way hashing, hash comparison, and file integrity checks.
+* Base64, Base32, HEX, URL encode/decode
 
-/hmac
+### 🧱 **Identicon Generator**
 
-HMAC generation and verification using secret keys.
+* Generate PNG/SVG identicons from input text
 
-/aes
+---
 
-Symmetric encryption (key generation, data/file encrypt/decrypt).
+## 📁 Project Structure
 
-/rsa
+```
+src/
+ ├── routes/
+ │    ├── hash.routes.js
+ │    ├── hmac.routes.js
+ │    ├── aes.routes.js
+ │    ├── rsa.routes.js
+ │    ├── other.routes.js
+ │    └── identicon.routes.js
+ │
+ ├── controllers/
+ ├── schemas/
+ ├── middlewares/
+ │    ├── validate.js
+ │    └── upload.js
+ └── index.js
+```
 
-Asymmetric cryptography (key generation, signing, encryption).
+---
 
-/other
+## 📌 API Endpoints
 
-General encoding and decoding utilities.
+---
 
-/identicon
+## 🔐 Hash Routes — `/hash`
 
-Generates unique visual identifiers (Identicons).
+### **GET** `/get-hashes`
 
-⚡ Quick Reference: Core Endpoints
+Returns a list of supported hash algorithms.
 
-Here is a quick overview of the most commonly used endpoints. For detailed input schemas and response bodies, please refer to the dedicated API documentation file (api_documentation.md).
+### **POST** `/hash-data`
 
-Module
+Hash raw text.
+**Body:**
 
-Method
+```json
+{
+  "algorithm": "sha256",
+  "data": "hello world"
+}
+```
 
-Path
+### **POST** `/compare-hash`
 
-Action
+Verify text against a hash.
 
-Hash
+### **POST** `/multiple-hash`
 
-POST
+Apply multiple hash algorithms at once.
 
-/hash/hash-data
+### **POST** `/file/hash-data`
 
-Generates a hash for a given string.
+Upload a file to generate its hash.
 
-Hash
+---
 
-POST
+## 🔑 HMAC Routes — `/hmac`
 
-/hash/file/hash-data
+### **POST** `/generate-hmac`
 
-Generates a hash for an uploaded file.
+Generate HMAC signature.
 
-HMAC
+### **POST** `/verify-hmac`
 
-POST
+Verify HMAC signature.
 
-/hmac/generate-hmac
+---
 
-Creates an HMAC with a secret key.
+## 🧊 AES Routes — `/aes`
 
-AES
+### **POST** `/generate-key`
 
-POST
+Generate AES key.
 
-/aes/encrypt
+### **POST** `/encrypt`
 
-Encrypts string data.
+Encrypt text.
 
-AES
+### **POST** `/decrypt`
 
-POST
+Decrypt text.
 
-/aes/encrypt-file
+### **POST** `/encrypt-file`
 
-Encrypts an uploaded file.
+Encrypt uploaded file.
 
-RSA
+### **POST** `/decrypt-file`
 
-POST
+Decrypt uploaded file.
 
-/rsa/generate-key
+---
 
-Generates a new RSA key pair.
+## 🔏 RSA Routes — `/rsa`
 
-RSA
+### **POST** `/generate-key`
 
-POST
+Generate RSA keypair.
 
-/rsa/sign
+### **POST** `/sign`
 
-Creates a digital signature for data.
+Sign text using private key.
 
-Identicon
+### **POST** `/verify`
 
-POST
+Verify RSA signature.
 
-/identicon/generate
+### **POST** `/encrypt`
 
-Creates a visual hash avatar.
+Encrypt using public key.
 
-🤝 Contribution and Contact
+### **POST** `/decrypt`
 
-For issues, feature requests, or technical support, please contact the development team.
+Decrypt using private key.
 
-License: [MIT/Apache 2.0/Proprietary]
+---
+
+## 🧬 Encoding Routes — `/other`
+
+### **POST** `/encode-decode`
+
+Encode or decode:
+
+* Base64
+* HEX
+* URL encoding
+* Base32
+
+---
+
+## 🧱 Identicon Routes — `/identicon`
+
+### **POST** `/generate`
+
+Generate a unique identicon based on input text.
+
+---
+
+## ⚙️ Setup & Installation
+
+### **Clone the repository**
+
+```sh
+git clone https://github.com/your/repo.git
+cd cryptography-api
+```
+
+### **Install dependencies**
+
+```sh
+npm install
+```
+
+### **Create environment file**
+
+```
+PORT=5000
+```
+
+### **Run the server**
+
+```sh
+npm start
+```
+
+---
+
+## 🧪 API Testing
+
+You can test endpoints using:
+
+* Postman
+* Insomnia
+* Thunder Client
+* cURL
+
+Example:
+
+```sh
+curl -X POST http://localhost:5000/hash/hash-data \
+  -H "Content-Type: application/json" \
+  -d '{"algorithm":"sha256", "data":"hello"}'
+```
+
+---
+
+## 🛡️ Security Notes
+
+* Never store private RSA keys in plain text
+* Always validate inputs (already implemented via schemas)
+* Rate-limit sensitive endpoints depending on production use-case
+* Prefer AES-256-GCM for secure encryption
+
+---
+
+## 📄 License
+
+MIT License
+
+---
