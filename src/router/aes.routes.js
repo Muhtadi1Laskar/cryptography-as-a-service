@@ -6,10 +6,10 @@ import { uploadSingle } from "../middleware/fileHandler.js";
 
 const router = express.Router();
 
-router.post("/generate-key", validate(aesFileEncryptionScheme), generatAESKey);
-router.post("/encrypt", validate(aesEncryptSchema), aesEncrypt);
-router.post("/decrypt", validate(aesDecryptSchema), aesDecrypt);
-router.post("/encrypt-file", uploadSingle, validate(aesFileEncryptionScheme), aesFileEncrypt);
-router.post("/decrypt-file", uploadSingle, validate(aesFileEncryptionScheme), aesFileDecrypt);
+router.post("/key", validate(aesFileEncryptionScheme), generatAESKey);
+router.post("/text/encrypt", validate(aesEncryptSchema), aesEncrypt);
+router.post("/text/decrypt", validate(aesDecryptSchema), aesDecrypt);
+router.post("/file/encrypt", uploadSingle, validate(aesFileEncryptionScheme), aesFileEncrypt);
+router.post("/file/decrypt", uploadSingle, validate(aesFileEncryptionScheme), aesFileDecrypt);
 
 export default router;

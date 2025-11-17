@@ -5,6 +5,6 @@ import { encodeDecode } from "../controller/encoding.controller.js";
 
 const router = express.Router();
 
-router.post("/encode-decode", validate(encodeDecodeSchema), encodeDecode);
+router.post("/codec", validate(encodeDecodeSchema), encodeDecode);
 
 export default router;

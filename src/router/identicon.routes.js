@@ -5,6 +5,6 @@ import { generateIdenticon } from "../controller/identicon.controller.js";
 
 const router = express.Router();
 
-router.post("/generate", validate(identiconSchema), generateIdenticon);
+router.post("/create", validate(identiconSchema), generateIdenticon);
 
 export default router;
